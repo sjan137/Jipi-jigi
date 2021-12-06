@@ -241,8 +241,8 @@ const AppConsume = () => {
   })
   const [series1, setseries1] = useState([
     {
-      name: 'MARKET_NONFOOD_HOMEWARE_CULTURE',
-      data: y_market1
+    name: 'MARKET_NONFOOD_HOMEWARE_CULTURE',
+    data: y_market1
     },
     {
       name: 'MARKET_NONFOOD_CLOTHING',

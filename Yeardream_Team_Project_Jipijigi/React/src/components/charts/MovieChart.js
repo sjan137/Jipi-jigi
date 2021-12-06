@@ -10,6 +10,23 @@ const MovieChart = () => {
   let y5 = [];
   let y6 = [];
   let x = [""];
+  let year = [];
+  let month = [];
+  let day = [];
+  let temp2 = [];
+  let temp3 = [];
+  let temp4 = [];
+  let temp5 = [];
+  let temp6 = [];
+  let temp7 = [];
+  let temp = [];
+  let acc1 = 0;
+  let acc2 = 0;
+  let acc3 = 0;
+  let acc4 = 0;
+  let acc5 = 0;
+  let acc6 = 0;
+  let temp1 = [''];
   
 
   const chart = () => {
@@ -26,6 +43,35 @@ const MovieChart = () => {
             y5.push(Number(dataobj.total_sales));
             y6.push(Number(dataobj.total_audience));
             x.push((dataobj.date_day));
+            year.push(dataobj.date_day.substring(0,2))
+            month.push(dataobj.date_day.substring(2,4))
+            day.push(dataobj.date_day.substring(4,6))
+          }
+          for(var i=1; i<year.length; i++){
+            if(month[i] === month[i-1]){
+              acc1 = acc1 + Number(y1[i])
+              acc2 = acc2 + Number(y2[i])
+              acc3 = acc3 + Number(y3[i])
+              acc4 = acc4 + Number(y4[i])
+              acc5 = acc5 + Number(y5[i])
+              acc6 = acc6 + Number(y6[i])
+            }
+            else{
+              temp1.push(String(year[i])+String(month[i-1]));
+              temp2.push(acc1);
+              temp3.push(acc2);
+              temp4.push(acc3);
+              temp5.push(acc4);
+              temp6.push(acc5);
+              temp7.push(acc6);
+              
+              acc1 = 0;
+              acc2 = 0;
+              acc3 = 0;
+              acc4 = 0;
+              acc5 = 0;
+              acc6 = 0;
+            }
           }
         }else{
           console.log("영화 데이터 못 가져왔다.")
@@ -47,8 +93,46 @@ const MovieChart = () => {
 
   const [options, setoptions] = useState({
     chart: {
-      id: 'apex chart'
+      id: 'apex chart',
+      zoom: {
+        autoScaleYaxis: true
+      }
     },
+    annotations: {
+      xaxis: [{
+        x: "2001",
+        x2: "2108",
+        borderColor: '#999',
+        yAxisIndex: 0,
+        fillColor: '#B3F7CA',
+        label: {
+          rotate: -45,
+          show: true,
+          text: '국내 첫 확진자',
+          style: {
+            color: "#fff",
+            background: '#775DD0',
+            fontSize: "16"
+          }
+        }
+      }]
+    },
+    // annotations: {
+    //   yaxis: [
+    //     {
+    //       y: 150,
+    //       borderColor: "#00E396",
+    //       label: {
+    //         borderColor: "#00E396",
+    //         style: {
+    //           color: "#fff",
+    //           background: "#00E396"
+    //         },
+    //         text: "Y Axis Annotation"
+    //       }
+    //     }
+    //   ],
+    // },
     title:{
       text: "Movie data",
       style:{
@@ -60,14 +144,23 @@ const MovieChart = () => {
       margin: 40
     },
     xaxis: {
-      
-      categories: x,
+      // {},
+      tickAmount: 10,
+      labels: {
+        show: true,
+        rotate: 0,
+        // formatter: (val) => formatDateTo(val), 
+      },
+      // labels: [1,2,3,4],
+      type: "category",
+      categories: temp1,
       title: {
-        text: "Day",
+        text: "YYMM",
         style:{
-          color: '#0f0'
+          fontSize: '24',
+          color: '#000'
         }
-      }
+      }, 
     },
     yaxis: {
       style: {
@@ -76,7 +169,8 @@ const MovieChart = () => {
       title:{
         text:"Amount",
         style:{
-          color: '#0f0'
+          fontSize: '24',
+          color: '#000'
         }
       }
     }
@@ -84,34 +178,34 @@ const MovieChart = () => {
   const [series, setseries] = useState([
     {
       name: 'korea_sales',
-      data: y1
+      data: temp2
     },
     {
       name: 'korea_audience_num',
-      data: y2
+      data: temp3
     },
     {
       name: 'foreign_audience_num',
-      data: y3
+      data: temp4
     },
     {
       name: 'foreign_sales',
-      data: y4
+      data: temp5
     },
     {
       name: 'total_sales',
-      data: y5
+      data: temp6
     },
     {
       name: 'total_audience',
-      data: y6
+      data: temp7
     },
   ])
 
 
   return (
     <div>
-      <Chart options={options} series={series} type="line" width={1000} height={600} />
+      <Chart options={options} series={series} type="line" width={'100%'} height={600} />
     </div>
   );
 };
