@@ -12,7 +12,7 @@ import { MHidden } from '../../components/@material-extend';
 //
 import sidebarConfig from './SidebarConfig';
 import account from '../../_mocks_/account';
-
+import './button.css'
 // ----------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
@@ -58,8 +58,9 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
     >
       <Box sx={{ px: 2.5, py: 3 }}>
         <Box component={RouterLink} to="/" sx={{ display: 'inline-flex' }}>
+        {/* <Box component={RouterLink} to="/" > */}
           <Logo />
-          <h2>지피지기</h2>
+          <Link to="/"><h2>지피지기</h2></Link>
         </Box>
       </Box>
 

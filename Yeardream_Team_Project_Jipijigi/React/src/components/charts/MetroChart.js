@@ -1,98 +1,88 @@
-import { merge } from 'lodash';
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useState,useEffect} from 'react';
+import Chart from 'react-apexcharts';
 import axios from 'axios';
-import ReactApexChart from 'react-apexcharts';
-import { BaseOptionChart } from '../../components/charts';
-import { Card, CardHeader, Box } from '@mui/material';
 
-
-// Chart.register(...registerables);
-
-const Metro = () => {
-  const [number, setnumber] = useState([])
-  const [date, setdate] = useState([])
-
-  const [chartdata, setchartdata] = useState({
-    labels: ['1'],
-    datasets: [
-      {
-        label: "국내 누적 확진자",
-        backgroundColor: "red",
-        fill: true,
-        data: [1]
-      },
-    ]
-  })
-
+const MetroChart = () => {
+  let y = [];
+  let x = [""];
+  
   const chart = () => {
-
-    let y = [];
-    let x = [];
     axios
-      .get('http://15.164.225.133:5000/metro')
+      .get("http://15.164.225.133:5000/metro")
       .then(res => {
-        console.log(res)
-        for(const dataobj of res.data){
-          y.push(parseInt(dataobj.ALIGHT));
-          x.push(parseInt(dataobj.DATE));
+        if(res.status === 200){
+          console.log("지하철 데이터 가져왔다.")
+          for(const dataobj of res.data){
+            // var temp = dataobj.get_on;
+            // var temp1 = dataobj.get_off;
+            // y.push(Number(temp - temp1));
+            y.push((dataobj.get_on));
+            x.push((dataobj.date_day));
+          }
+        }else{
+          console.log("지하철 데이터 못 가져왔다.")
         }
-        setchartdata({
-          labels: x,
-          datasets: [
-            {
-              label: "지하철 이용객",
-              borderColor: "red",
-              fill: false,
-              data: y,
-            },
-          ]
-        });
       })
       .catch(err => {
         console.log(err)
       });
-    console.log(x, y)
-
-
+    console.log(x,y)
   }
-
 
   useEffect(() => {
     chart();
   }, []);
 
-  const CHART_DATA = [chartdata.datasets.data]
-
-  const chartOptions = merge(BaseOptionChart(), {
-    stroke: { width: [0, 2, 3] },
-    plotOptions: { bar: { columnWidth: '11%', borderRadius: 4 } },
-    fill: { type: 'gradient' },
-    labels: chartdata.labels,
-    xaxis: { type: 'string' },
-    tooltip: {
-      shared: true,
-      intersect: false,
-      y: {
-        formatter: (y) => {
-          if (typeof y !== 'undefined') {
-            return `${y.toFixed(0)} visits`;
-          }
-          return y;
+  const [options, setoptions] = useState({
+    chart: {
+      id: 'apex chart'
+    },
+    title:{
+      text: "Metro data",
+      style:{
+        fontSize:30
+      }
+    },
+    subtitle:{
+      text:"지하철 데이터 통계",
+      margin: 40
+    },
+    // labels: x,
+    xaxis: {
+      // tickPlacement:'on',
+      // type: 'datetime',
+      categories: x,
+      title: {
+        text: "Day",
+        style:{
+          color: '#0f0'
+        }
+      }
+    },
+    yaxis: {
+      style: {
+        colors:['#ff0']
+      },
+      title:{
+        text:"Amount",
+        style:{
+          color: '#0f0'
         }
       }
     }
-  });
-  
+  })
+  const [series, setseries] = useState([{
+    name: '일일 버스 탑승객',
+    data: y,
+    color: "#0c2925",
+  }])
 
   return (
-    <Card>
-      <CardHeader title="교통 데이터" subheader="국내 코로나 관련 정보입니다." />
-      {/* <Box sx={{ p: 3, pb: 1 }} dir="ltr">
-        <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} height={364} />
-      </Box> */}
-    </Card>
-  )
-}
+    <div>
+      <Chart options={options} series={series} type="line" width={1000} height={600} />
+    </div>
+    
+  );
+};
 
-export default Metro
+export default MetroChart;
