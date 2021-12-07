@@ -16,6 +16,7 @@
 1. React UI Framework, React Bootstrap, React Material UI 등을 적극 이용하여, 팀원의 의견들에 부합하는 UI를 최대한 구현했습니다.
 2. React의 useState, 임의로 생성한 function 등을 통해 사용자가 보고 싶은 그래프 페이지, 분석 페이지 등을 선택할 수 있는 버튼을 구현했습니다.
 3. 각 그래프 페이지, 분석 페이지 등을 리액트의 특성인 Component 요소로써 미리 작성해두고, 3-2에서 언급한 버튼 선택에 따라 해당 요소만 매끄럽게 전환될 수 있도록 구현했습니다.
+4. 일부 데이터 수집 및 회의록 작성, 관리
 
 ## 4. 프로젝트 후기
 https://as-j.tistory.com/119
