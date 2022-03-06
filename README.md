@@ -5,6 +5,13 @@
 - 역할: 프론트엔드 담당
 - 동기: '지피지기면 백전불태'. 적을 알고 나를 알면 백 번 싸워도 위태롭지 않다는 뜻으로, COVID-19를 알고 우리에게 끼친 영향을 알면 우리가 더 나은 가치 판단을 할 수 있을 것이라는 아이디어에서 프로젝트와 그 이름을 떠올렸습니다.
 - 내용: 교통(서울 주요 지하철역), 문화(영화, 공연 관람), 소비(유통업체별 변화), 생활(유명 검색 포털 사이트 키워드 통계) 등에 걸친 데이터를 시각화 및 분석하여 정보를 제공하는 서비스 프로젝트입니다.
+- 사용된 기술 스택과 라이브러리
+
+| 파트 | 기술스택 | 라이브러리 |
+| -------- | -------- | -------- |
+|프론트엔드|HTML, CSS, JavaScript, React|React vis, React ApexChart|
+|백엔드|python(library를 활용한 데이터 추출 및 가공, 서버 & DB 연결), AWS(RDS를 활용한 DB 구축), Docker, SQL(datagrip IDE를 사용하여 DB 관리)|Flask(서버 연결), sqlalchemy(DB Modeling 작업)|
+|데이터분석|python|numpy, pandas, sklearn.linear_model, mpl_toolkits.mplot3d, statsmodels.api, seaborn, statsmodels.formula.api(회귀분석, 다중회귀분석 및 그래프 작성)|
 
 ## 2. 프로젝트 특징
 1. 메인 페이지의 두 화면은 서로 위 또는 아래 드래그 한 번만으로 매끄럽게 애니메이션 효과를 보여주며 이동됩니다.
